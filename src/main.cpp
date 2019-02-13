@@ -23,9 +23,26 @@ int main()
         {
             ImGui::SFML::ProcessEvent(event);
  
-            if (event.type == sf::Event::Closed)
+            switch (event.type)
             {
-                window.close();
+                case sf::Event::Closed:
+                    window.close();
+                break;
+                case sf::Event::KeyPressed:
+                    switch (event.key.code)
+                    {
+                        case sf::Keyboard::Up:
+                            screen.scroll(Screen::SIDE::Top);
+                        break;
+                        case sf::Keyboard::Down:
+                            screen.scroll(Screen::SIDE::Bot);
+                        break;
+                        default:
+                        break;
+                    }
+                break;
+                default:
+                break;
             }
         }
  
