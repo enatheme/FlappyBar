@@ -141,7 +141,7 @@ void Screen::do_scroll_top()
 
 void Screen::do_scroll_bot()
 {
-    for (uint8_t i = Screen::X ; i >= 0 ; --i)
+    for (uint8_t i = Screen::X ; i > 0 ; --i)
     {
         for (uint8_t j = 0 ; j < Screen::Y ; ++j)
         {
