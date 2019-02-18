@@ -187,13 +187,13 @@ void Screen::do_scroll_right()
 uint8_t Screen::do_add_object(Position p, char symbol)
 {
     m_last_id++;
-    m_object.emplace_back({m_last_id, p, symbol});
+    m_objects.push_back({m_last_id, symbol, p});
     return m_last_id;
 }
 
-void Screen::do_modity_speed_object(uint8_t id, uint8_t speed, SIDE direction)
+void Screen::do_modify_speed_object(uint8_t id, uint8_t speed, SIDE direction)
 {
-    m_vector.at[id].set_speed(speed, direction);
+    m_objects.at(id).set_speed(speed, direction);
 }
 
 uint8_t Screen::Object::get_id() const
@@ -204,6 +204,12 @@ uint8_t Screen::Object::get_id() const
 char Screen::Object::get_symbol() const
 {
     return m_symbol;
+}
+
+void Screen::Object::set_speed(uint8_t speed, SIDE direction)
+{
+    m_speed = speed;
+    m_direction = direction;
 }
 
 Screen::Position Screen::Object::get_position() const
