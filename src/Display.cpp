@@ -183,3 +183,76 @@ void Screen::do_scroll_right()
         m_screen[0][Screen::Y] = ' ';
     }
 }
+
+uint8_t Screen::do_add_object(Position p, char symbol)
+{
+    m_last_id++;
+    m_object.emplace_back({m_last_id, p, symbol});
+    return m_last_id;
+}
+
+void Screen::do_modity_speed_object(uint8_t id, uint8_t speed, SIDE direction)
+{
+    m_vector.at[id].set_speed(speed, direction);
+}
+
+uint8_t Screen::Object::get_id() const
+{
+    return m_id;
+}
+
+char Screen::Object::get_symbol() const
+{
+    return m_symbol;
+}
+
+Screen::Position Screen::Object::get_position() const
+{
+    return m_position;
+}
+
+Screen::Position Screen::Object::get_next_position()
+{
+    if (!m_position._is_valid)
+    {
+        return m_position;
+    }
+    switch (m_direction)
+    {
+        case SIDE::Top:
+            if ((m_position._y - m_speed) < 0)
+            {
+                return do_invalid_position();
+            }
+            m_position._y -= m_speed;
+        break;
+        case SIDE::Bot:
+            if ((m_position._y + m_speed) > Screen::Y)
+            {
+                return do_invalid_position();
+            }
+            m_position._y += m_speed;
+        break;
+        case SIDE::Left:
+            if ((m_position._x - m_speed) < 0)
+            {
+                return do_invalid_position();
+            }
+            m_position._x -= m_speed;
+        break;
+        case SIDE::Right:
+            if ((m_position._x + m_speed) > Screen::X)
+            {
+                return do_invalid_position();
+            }
+            m_position._x += m_speed;
+        break;
+    }
+    return m_position;
+}
+
+Screen::Position Screen::Object::do_invalid_position()
+{
+    m_position._is_valid = false;
+    return m_position;
+}

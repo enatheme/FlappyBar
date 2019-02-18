@@ -11,6 +11,7 @@
 #include <cstring>
 #include <iostream>
 #include <memory>
+#include <vector>
 
 struct Sprites
 {
@@ -68,6 +69,13 @@ protected:
 class Screen: public Display
 {
 public:
+    struct Position
+    {
+        bool _is_valid;
+        uint8_t _x;
+        uint8_t _y;
+    };
+
     enum class SIDE { Top, Bot, Right, Left };
     Screen() : Display("Screen", true)
     {
@@ -89,10 +97,38 @@ public:
     static constexpr uint8_t X = 40;
     static constexpr uint8_t Y = 180;
 private:
+    class Object
+    {
+    public:
+        Object (uint8_t id, char symbol, Screen::Position position)
+            :
+                m_id(id), m_symbol(symbol), m_position(position)
+        {}
+
+        uint8_t get_id() const;
+        char get_symbol() const;
+        Screen::Position get_position() const;
+        Screen::Position get_next_position();
+        void set_speed(uint8_t speed, SIDE direction);
+
+    private:
+        Screen::Position do_invalid_position();
+
+    private:
+        uint8_t m_id = 0; // id 0 is invalid
+        char m_symbol = ' ';
+        Screen::Position m_position = {true, 0, 0};
+        uint8_t m_speed = 0;
+        SIDE m_direction = SIDE::Top;
+    };
     void do_scroll_left();
     void do_scroll_right();
     void do_scroll_top();
     void do_scroll_bot();
+
+    uint8_t do_add_object(Position p, char symbol);
+    void do_modify_speed_object(uint8_t id, uint8_t speed, SIDE direction);
+    void do_delete_object(uint8_t id);
 
     constexpr void flip(char & c)
     {
@@ -103,4 +139,8 @@ private:
         c = ((c == ' ') ? ' ' : '*');
     }
     char m_screen[Screen::X][Screen::Y];
+
+    private:
+        uint8_t m_last_id = 0;
+        std::vector<Object> m_objects;
 };
