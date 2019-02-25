@@ -225,28 +225,28 @@ Screen::Position Screen::Object::get_next_position()
     }
     switch (m_direction)
     {
-        case SIDE::Top:
+        case SIDE::Left:
             if ((m_position._y - m_speed) < 0)
             {
                 return do_invalid_position();
             }
             m_position._y -= m_speed;
         break;
-        case SIDE::Bot:
+        case SIDE::Right:
             if ((m_position._y + m_speed) > Screen::Y)
             {
                 return do_invalid_position();
             }
             m_position._y += m_speed;
         break;
-        case SIDE::Left:
+        case SIDE::Top:
             if ((m_position._x - m_speed) < 0)
             {
                 return do_invalid_position();
             }
             m_position._x -= m_speed;
         break;
-        case SIDE::Right:
+        case SIDE::Bot:
             if ((m_position._x + m_speed) > Screen::X)
             {
                 return do_invalid_position();
