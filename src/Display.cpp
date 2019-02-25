@@ -105,7 +105,7 @@ void Screen::draw(uint8_t from_x, uint8_t to_x, uint8_t from_y, uint8_t to_y)
     }
 }
 
-void Screen::scroll(SIDE side)
+void Screen::scroll(uint8_t speed, SIDE side)
 {
     switch (side)
     {

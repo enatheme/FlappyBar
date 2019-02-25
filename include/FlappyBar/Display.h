@@ -93,7 +93,7 @@ public:
     void operator=(const Screen & s);
     void operator=(Screen && s);
 
-    void scroll(SIDE side);
+    void scroll(uint8_t speed, SIDE side);
     static constexpr uint8_t X = 40;
     static constexpr uint8_t Y = 180;
 private:

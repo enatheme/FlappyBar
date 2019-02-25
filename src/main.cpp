@@ -32,10 +32,10 @@ int main()
                     switch (event.key.code)
                     {
                         case sf::Keyboard::Up:
-                            screen.scroll(Screen::SIDE::Top);
+                            screen.scroll(1, Screen::SIDE::Top);
                         break;
                         case sf::Keyboard::Down:
-                            screen.scroll(Screen::SIDE::Bot);
+                            screen.scroll(1, Screen::SIDE::Bot);
                         break;
                         default:
                         break;
@@ -55,7 +55,7 @@ int main()
         if (std::chrono::duration_cast<std::chrono::milliseconds>(stop_1 - timer_1).count() > 100)
         {
             timer_1 = stop_1;
-            screen.scroll(Screen::SIDE::Left);
+            screen.scroll(1, Screen::SIDE::Left);
         }
         // each 5 secs, new object
         auto stop_2 = std::chrono::high_resolution_clock::now();
