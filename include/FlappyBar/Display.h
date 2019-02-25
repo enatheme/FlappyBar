@@ -96,6 +96,17 @@ public:
     void scroll(uint8_t speed, SIDE side);
     static constexpr uint8_t X = 40;
     static constexpr uint8_t Y = 180;
+
+    uint8_t add_object(Position p, char symbol)
+    {
+        return do_add_object(p, symbol);
+    }
+    uint8_t add_object(Position p, char symbol, uint8_t speed, SIDE direction)
+    {
+        auto id = add_object(p, symbol);
+        do_modify_speed_object(id, speed, direction);
+        return id;
+    }
 private:
     class Object
     {

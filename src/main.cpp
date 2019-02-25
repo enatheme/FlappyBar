@@ -16,6 +16,7 @@ int main()
     sf::Clock deltaClock;
 
     Screen screen = Screen();
+    auto id = screen.add_object({true, 5, 5}, 'P', 0, Screen::SIDE::Right);
 
     while (window.isOpen()) {
         sf::Event event;

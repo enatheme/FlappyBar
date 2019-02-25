@@ -188,12 +188,13 @@ uint8_t Screen::do_add_object(Position p, char symbol)
 {
     m_last_id++;
     m_objects.push_back({m_last_id, symbol, p});
+    m_screen[p._x][p._y] = symbol;
     return m_last_id;
 }
 
 void Screen::do_modify_speed_object(uint8_t id, uint8_t speed, SIDE direction)
 {
-    m_objects.at(id).set_speed(speed, direction);
+    m_objects.at(id - 1).set_speed(speed, direction);
 }
 
 uint8_t Screen::Object::get_id() const
