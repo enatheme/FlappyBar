@@ -119,7 +119,8 @@ private:
         uint8_t get_id() const;
         char get_symbol() const;
         Screen::Position get_position() const;
-        Screen::Position get_next_position();
+        // next position must be aware at the screen scrolling
+        Screen::Position get_next_position(uint8_t scrolling, SIDE side);
         void set_speed(uint8_t speed, SIDE direction);
 
     private:

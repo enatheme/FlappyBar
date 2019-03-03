@@ -107,6 +107,11 @@ void Screen::draw(uint8_t from_x, uint8_t to_x, uint8_t from_y, uint8_t to_y)
 
 void Screen::scroll(uint8_t speed, SIDE side)
 {
+    for (auto & object : m_objects)
+    {
+        auto pos = object.get_position();
+        m_screen[pos._x][pos._y] = ' ';
+    }
     switch (side)
     {
         case SIDE::Top:
@@ -121,6 +126,11 @@ void Screen::scroll(uint8_t speed, SIDE side)
         case SIDE::Left:
             do_scroll_left();
         break;
+    }
+    for (auto & object : m_objects)
+    {
+        auto pos = object.get_next_position();
+        m_screen[pos._x][pos._y] = object.get_symbol(speed, side);
     }
 };
 
@@ -218,7 +228,7 @@ Screen::Position Screen::Object::get_position() const
     return m_position;
 }
 
-Screen::Position Screen::Object::get_next_position()
+Screen::Position Screen::Object::get_next_position(uint8_t scrolling, SIDE side)
 {
     if (!m_position._is_valid)
     {
