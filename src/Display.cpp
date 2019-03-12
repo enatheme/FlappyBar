@@ -105,12 +105,15 @@ void Screen::draw(uint8_t from_x, uint8_t to_x, uint8_t from_y, uint8_t to_y)
     }
 }
 
-void Screen::scroll(uint8_t speed, SIDE side)
+bool Screen::scroll(uint8_t speed, SIDE side, bool move_object)
 {
-    for (auto & object : m_objects)
+    if (move_object)
     {
-        auto pos = object.get_position();
-        m_screen[pos._x][pos._y] = ' ';
+        for (auto & object : m_objects)
+        {
+            auto pos = object.get_position();
+            m_screen[pos._x][pos._y] = ' ';
+        }
     }
     switch (side)
     {
@@ -129,9 +132,28 @@ void Screen::scroll(uint8_t speed, SIDE side)
     }
     for (auto & object : m_objects)
     {
-        auto pos = object.get_next_position(1, side);
-        m_screen[pos._x][pos._y] = object.get_symbol();
+        // some lamba would be nice here
+        Position pos = object.get_position();
+        Position pos2 = object.get_next_position(1, side);
+        if (move_object)
+        {
+            if (m_screen[pos2._x][pos2._y] != ' ')
+            {
+                return false;
+            }
+            m_screen[pos2._x][pos2._y] = object.get_symbol();
+        }
+        else
+        {
+            // restore previous position
+            object.set_position(pos);
+            if (m_screen[pos2._x][pos2._y] != object.get_symbol())
+            {
+                return false;
+            }
+        }
     }
+    return true;
 };
 
 void Screen::do_scroll_top()
@@ -226,6 +248,11 @@ void Screen::Object::set_speed(uint8_t speed, SIDE direction)
 Screen::Position Screen::Object::get_position() const
 {
     return m_position;
+}
+
+void Screen::Object::set_position(Screen::Position position)
+{
+    m_position = position;
 }
 
 Screen::Position Screen::Object::get_next_position(uint8_t scrolling, SIDE side)

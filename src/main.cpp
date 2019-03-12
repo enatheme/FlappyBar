@@ -56,7 +56,10 @@ int main()
         if (std::chrono::duration_cast<std::chrono::milliseconds>(stop_1 - timer_1).count() > 100)
         {
             timer_1 = stop_1;
-            screen.scroll(1, Screen::SIDE::Left);
+            if (!screen.scroll(1, Screen::SIDE::Left, true))
+            {
+                std::cout << "COLLISION!\n";
+            }
         }
         // each 5 secs, new object
         auto stop_2 = std::chrono::high_resolution_clock::now();

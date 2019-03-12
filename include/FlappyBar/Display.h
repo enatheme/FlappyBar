@@ -93,7 +93,8 @@ public:
     void operator=(const Screen & s);
     void operator=(Screen && s);
 
-    void scroll(uint8_t speed, SIDE side);
+    // return true if no collision
+    bool scroll(uint8_t speed, SIDE side, bool move_object);
     static constexpr uint8_t X = 40;
     static constexpr uint8_t Y = 180;
 
@@ -119,6 +120,7 @@ private:
         uint8_t get_id() const;
         char get_symbol() const;
         Screen::Position get_position() const;
+        void set_position(Screen::Position);
         // next position must be aware at the screen scrolling
         Screen::Position get_next_position(uint8_t scrolling, SIDE side);
         void set_speed(uint8_t speed, SIDE direction);
