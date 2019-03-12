@@ -53,7 +53,7 @@ int main()
 
         // each 0.1 sec, scroll to left
         auto stop_1 = std::chrono::high_resolution_clock::now();
-        if (std::chrono::duration_cast<std::chrono::milliseconds>(stop_1 - timer_1).count() > 1000)
+        if (std::chrono::duration_cast<std::chrono::milliseconds>(stop_1 - timer_1).count() > 100)
         {
             timer_1 = stop_1;
             screen.scroll(1, Screen::SIDE::Left);
@@ -65,13 +65,10 @@ int main()
             timer_2 = stop_2;
             uint8_t fx = std::rand() % 20;
             uint8_t tx = Screen::X - std::rand() % 20;
-            //uint8_t fy = Screen::Y - std::rand() % 5;
-            //uint8_t ty = Screen::Y - std::rand() % 5;
             uint8_t fy = Screen::Y - 2;
             uint8_t ty = Screen::Y - 1;
-            //screen.draw(fx, tx, fy, ty);
+            screen.draw(fx, tx, fy, ty);
         }
-        //screen.draw(std::experimental::randint(0, 10), std::experimental::randint(20, 30), std::experimental::randint(Screen::Y - 5, Screen::Y - 2), std::experimental::randint(Screen::Y - 1, Screen::Y));
 
         window.clear();
         ImGui::Render();

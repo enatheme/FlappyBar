@@ -129,8 +129,8 @@ void Screen::scroll(uint8_t speed, SIDE side)
     }
     for (auto & object : m_objects)
     {
-        auto pos = object.get_next_position();
-        m_screen[pos._x][pos._y] = object.get_symbol(speed, side);
+        auto pos = object.get_next_position(1, side);
+        m_screen[pos._x][pos._y] = object.get_symbol();
     }
 };
 
